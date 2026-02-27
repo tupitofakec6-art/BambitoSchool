@@ -123,4 +123,86 @@
                     </div>
                 </div>
 
-                <div id
+                <div id="chat-container" class="flex-1 p-6 space-y-4 overflow-y-auto bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
+                    <div class="flex flex-col gap-2">
+                        <div class="bg-gray-800 p-4 rounded-2xl rounded-tl-none border border-gray-700 max-w-[85%] text-sm shadow-lg">
+                            Olá, João! Estava analisando seu progresso. Você ainda não revisou o tema **"Open Finance"**. Quer que eu explique como a Cesgranrio cobra isso?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-5 bg-[#0a0a0a]/50 backdrop-blur-md">
+                    <div class="relative flex items-center gap-2">
+                        <input type="text" id="user-input" placeholder="Tire sua dúvida bancária..." 
+                               class="w-full bg-gray-900 border border-gray-700 rounded-2xl py-4 px-6 focus:outline-none focus:border-blue-500 transition-all text-sm shadow-inner">
+                        <button class="bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-2xl transition-all shadow-lg shadow-blue-600/20">
+                            🚀
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+<script>
+    // 1. Lógica do Chat (Simulação de Envio)
+    const chatContainer = document.getElementById('chat-container');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = userInput.nextElementSibling;
+
+    function addMessage(text, isUser = false) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `flex flex-col gap-2 ${isUser ? 'items-end' : 'items-start'}`;
+        
+        const contentClass = isUser 
+            ? 'bg-blue-600 text-white rounded-tr-none' 
+            : 'bg-gray-800 text-gray-200 rounded-tl-none border border-gray-700 ai-message';
+
+        msgDiv.innerHTML = `
+            <div class="${contentClass} p-4 rounded-2xl max-w-[85%] text-sm shadow-lg">
+                ${text}
+            </div>
+        `;
+        
+        chatContainer.appendChild(msgDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight; // Rola para o fim
+    }
+
+    sendBtn.addEventListener('click', () => {
+        if (userInput.value.trim() !== "") {
+            addMessage(userInput.value, true);
+            const userText = userInput.value;
+            userInput.value = "";
+
+            // Simulação de resposta da IA (Até conectarmos a API real)
+            setTimeout(() => {
+                addMessage(`Entendido, João! Sobre "${userText}", os editais da Cesgranrio costumam focar na aplicação prática. Quer que eu gere 3 questões sobre isso?`);
+            }, 1000);
+        }
+    });
+
+    // Enviar com a tecla Enter
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendBtn.click();
+    });
+
+    // 2. Interatividade dos Cards de Matéria
+    const cards = document.querySelectorAll('section .group');
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const materia = card.querySelector('h4').innerText;
+            alert(`Abrindo conteúdo de: ${materia}\nPrepare seus flashcards!`);
+            
+            // Aqui você poderia redirecionar para uma página de vídeo ou PDF
+            // window.location.href = `/materias/${materia.toLowerCase()}`;
+        });
+    });
+
+    // 3. Atualização de Progresso (Exemplo visual)
+    function atualizarProgressoGeral(novoValor) {
+        const progressoTexto = document.querySelector('header .text-blue-500');
+        progressoTexto.innerText = `${novoValor}%`;
+    }
+</script>
+</body>
+</html>
